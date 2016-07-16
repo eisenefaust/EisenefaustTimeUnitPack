@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Guid>fba029b0-7364-49c3-b84f-33a423151f8b</Guid>
+    <Name>EisenefaustTimeUnitPack</Name>
+    <Description>My attempt at implementing a Time Unit like mechanic into the game.</Description>
+    <SteamPublishID>0</SteamPublishID>
+    <AssemblyName>EisenefaustTimeUnitPack</AssemblyName>
+    <RootNamespace>EisenefaustTimeUnitPack</RootNamespace>
+    <ProjectGuid>{11ae9189-265d-43f9-a07c-566675b92a46}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Content\" />
+    <Folder Include="Localization\" />
+    <Folder Include="Src\" />
+    <Folder Include="Src\EisenefaustTimeUnitPack\" />
+    <Folder Include="Src\EisenefaustTimeUnitPack\Classes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\XComClassData.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComEisenefaustTUPack.ini" />
+    <Content Include="Config\XComGameData.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ReadMe.txt" />
+    <Content Include="ModPreview.jpg" />
+    <Content Include="Config\XComEditor.ini" />
+    <Content Include="Config\XComEngine.ini" />
+    <Content Include="Config\XComGame.ini" />
+    <Content Include="Localization\XComGame.int" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\TemplateEditors_Tactical.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2Ability_EisenfaustActionPointSet.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2DownloadableContentInfo_EisenefaustTimeUnitPack.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2Effect_EisenfaustTurnStartActionPoints.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2Effect_EisenefaustOverwatch.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\XComGameState_Effect_EffectCounter.uc" />
+  </ItemGroup>
+  <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
+</Project>
