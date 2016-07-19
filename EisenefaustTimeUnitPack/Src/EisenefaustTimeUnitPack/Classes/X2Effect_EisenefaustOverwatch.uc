@@ -33,7 +33,7 @@ simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffe
 		`Redscreen("EisenefaustOverwatch: Failed to find EisenefaustOverwatch Component when registering listener");
 		return;
 	}
-    EventMgr.RegisterForEvent(ListenerObj, 'PlayerTurnBegun', EisenefaustOverwatch_EffectState.ResetUses, ELD_OnStateSubmitted);
+    //EventMgr.RegisterForEvent(ListenerObj, 'PlayerTurnBegun', EisenefaustOverwatch_EffectState.ResetUses, ELD_OnStateSubmitted);
 	EventMgr.RegisterForEvent(EffectObj, 'EisenefaustOverwatchTriggered', NewEffectState.TriggerAbilityFlyover, ELD_OnStateSubmitted, , UnitState);
 }
 
@@ -76,4 +76,10 @@ static function XComGameState_Effect_EffectCounter GetEisenefaustOverwatchCounte
 	if (Effect != none) 
 		return XComGameState_Effect_EffectCounter(Effect.FindComponentObject(class'XComGameState_Effect_EffectCounter'));
 	return none;
+}
+
+defaultproperties
+{
+	DuplicateResponse=eDupe_Ignore
+	EffectName="Effect_EisenefaustOverwatch"
 }
