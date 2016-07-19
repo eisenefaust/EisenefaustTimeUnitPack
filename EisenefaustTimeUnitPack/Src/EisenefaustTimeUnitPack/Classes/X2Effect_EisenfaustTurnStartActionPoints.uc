@@ -49,5 +49,5 @@ function ModifyTurnStartActionPoints(XComGameState_Unit UnitState, out array<nam
 defaultproperties
 {
 	DuplicateResponse=eDupe_Ignore
-	EffectName="Effect_EisenfaustTurnStartActionPoints"
+	EffectName="Effect_EisenfaustActionPoints"
 }

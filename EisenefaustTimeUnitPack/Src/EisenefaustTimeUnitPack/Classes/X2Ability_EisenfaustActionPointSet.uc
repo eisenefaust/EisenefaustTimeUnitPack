@@ -25,7 +25,7 @@ static function X2AbilityTemplate AddEisenfaustActionPointsAbility()
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'EisenfaustActionPoints');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_timeshift";
 	Template.AbilitySourceName = 'eAbilitySource_Perk';
-	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow; //Don't show in the Tactical Ability HUD
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
 	Template.Hostility = eHostility_Neutral;
 	Template.AbilityToHitCalc = default.DeadEye;
 	Template.AbilityTargetStyle = default.SelfTarget;
@@ -33,13 +33,13 @@ static function X2AbilityTemplate AddEisenfaustActionPointsAbility()
 	Template.bIsPassive = true;
 	
 	StartAP = new class 'X2Effect_EisenfaustTurnStartActionPoints';
-	StartAP.BuildPersistentEffect (1, true, true); // exist forever
+	StartAP.BuildPersistentEffect (1, true, true);
 	StartAP.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true,,Template.AbilitySourceName);
-	Template.AddTargetEffect (StartAP); // adds to target of the ability as defined above: SelfTarget
+	Template.AddTargetEffect (StartAP);
 
 	Overwatch = new class'X2Effect_EisenefaustOverwatch';
 	Overwatch.BuildPersistentEffect (1, true, true);
-	Overwatch.SetDisplayInfo(ePerkBuff_Passive,,, Template.IconImage, false,,Template.AbilitySourceName); // the false is to not show it in the passive HUD list
+	Overwatch.SetDisplayInfo(ePerkBuff_Passive, "oVerWaTcH", "oVerWaTcH: Long Desc", Template.IconImage, false,,Template.AbilitySourceName);
 	Overwatch.OVERWATCH_USES_PER_TURN = 6;
 	Template.AddTargetEffect (Overwatch);
 	
