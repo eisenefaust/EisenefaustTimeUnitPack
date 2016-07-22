@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------- 
-//  FILE:    X2Effect_EisenfaustActionPoints
+//  FILE:    X2Effect_EisenefaustActionPoints
 //  AUTHOR:  Eisenefaust
 //  PURPOSE: Sets up rank-based Action Point modifier perk effect
 //--------------------------------------------------------------------------------------- 
 
-class X2Effect_EisenfaustTurnStartActionPoints extends X2Effect_TurnStartActionPoints config (EisenefaustTUPack);
+class X2Effect_EisenefaustTurnStartActionPoints extends X2Effect_TurnStartActionPoints config (EisenefaustTUPack);
 
 var config array<config int> POINTS_AT_RANK;
 var config bool bOneAdditionalRunAndGun;
@@ -49,5 +49,6 @@ function ModifyTurnStartActionPoints(XComGameState_Unit UnitState, out array<nam
 defaultproperties
 {
 	DuplicateResponse=eDupe_Ignore
-	EffectName="Effect_EisenfaustActionPoints"
+	EffectName="Effect_EisenefaustTurnStartActionPoints"
 }
+
