@@ -2,12 +2,14 @@
 //  FILE:    X2Effect_EisenefaustOverwatch
 //  AUTHOR:  Eisenefaust
 //  PURPOSE: Sets up overwatch to take extra shots based on WeaponType, ActionPoints, and Soldier Class
+//  Modified Long War Perk Pack Rapid Reaction implementation.
 //--------------------------------------------------------------------------------------- 
 
-Class X2Effect_EisenefaustOverwatch extends X2Effect_Persistent config (XComEisenefaustTUPack);
+Class X2Effect_EisenefaustOverwatch extends X2Effect_Persistent config (EisenefaustTUPack);
 
-var int OVERWATCH_USES_PER_TURN;
+var int OVERWATCH_USES_THIS_TURN;
 var config array<name> OVERWATCH_ABILITY_NAMES;
+var config array<name> OVERWATCHSHOT_ABILITY_NAMES;
 
 simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffectParameters, XComGameState_BaseObject kNewTargetState, XComGameState NewGameState, XComGameState_Effect NewEffectState)
 {
@@ -30,11 +32,18 @@ simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffe
 	ListenerObj = EisenefaustOverwatch_EffectState;
 	if (ListenerObj == none)
 	{
-		`Redscreen("EisenefaustOverwatch: Failed to find EisenefaustOverwatch Component when registering listener");
+		`Redscreen("X2Effect_EisenefaustOverwatch.OnEffectAdded(...): Failed to find EisenefaustOverwatch Component when registering listener");
 		return;
 	}
-    EventMgr.RegisterForEvent(ListenerObj, 'PlayerTurnBegun', EisenefaustOverwatch_EffectState.ResetUses, ELD_OnStateSubmitted);
+	EventMgr.RegisterForEvent(ListenerObj, 'PlayerTurnBegun', EisenefaustOverwatch_EffectState.ResetUses, ELD_OnStateSubmitted);
 	EventMgr.RegisterForEvent(EffectObj, 'EisenefaustOverwatchTriggered', NewEffectState.TriggerAbilityFlyover, ELD_OnStateSubmitted, , UnitState);
+}
+
+static function XComGameState_Effect_EffectCounter GetEisenefaustOverwatchCounter(XComGameState_Effect Effect)
+{
+	if (Effect != none) 
+		return XComGameState_Effect_EffectCounter(Effect.FindComponentObject(class'XComGameState_Effect_EffectCounter'));
+	return none;
 }
 
 function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStateContext_Ability AbilityContext, XComGameState_Ability kAbility, XComGameState_Unit SourceUnit, XComGameState_Item AffectWeapon, XComGameState NewGameState, const array<name> PreCostActionPoints, const array<name> PreCostReservePoints)
@@ -42,18 +51,33 @@ function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStat
 	local X2EventManager EventMgr;
 	local XComGameState_Ability AbilityState;       //  used for looking up our source ability (EisenefaustOverwatch), not the incoming one that was activated
 	local XComGameState_Effect_EffectCounter	CurrentOverwatchCounter, UpdatedOverwatchCounter;
+	local XComGameState_Unit HistoricalUnit;
 
 	CurrentOverwatchCounter = GetEisenefaustOverwatchCounter(EffectState);
-	If (CurrentOverwatchCounter != none)	 
+	if (CurrentOverwatchCounter != none)	 
 	{
-		if (CurrentOverwatchCounter.uses >= OVERWATCH_USES_PER_TURN)		
+		// if just activated one of the overwatch abilities
+		if (default.OVERWATCH_ABILITY_NAMES.Find(kAbility.GetMyTemplateName()) != -1)
+		{
+			// determine how many uses for this turn
+			HistoricalUnit = XComGameState_Unit(`XCOMHISTORY.GetGameStateForObjectID(AbilityContext.InputContext.SourceObject.ObjectID));
+			if (HistoricalUnit != none)
+			{
+				OVERWATCH_USES_THIS_TURN = HistoricalUnit.ActionPoints.Length;
+			}
+		}
+
+		if (CurrentOverwatchCounter.uses >= OVERWATCH_USES_THIS_TURN) // Essentially a modified PreCostActionPoints.Length
+		{
 			return false;
+		}
 	}
+
 	if (XComGameState_Ability(`XCOMHISTORY.GetGameStateForObjectID(EffectState.ApplyEffectParameters.AbilityStateObjectRef.ObjectID)) == none)
 		return false;
-	//if (!AbilityContext.IsResultContextHit())
-	//	return false;
-	if (SourceUnit.ReserveActionPoints.Length != PreCostReservePoints.Length && default.OVERWATCH_ABILITY_NAMES.Find(kAbility.GetMyTemplateName()) != -1)
+
+	// if an overwatchshot ability is used
+	if (SourceUnit.ReserveActionPoints.Length != PreCostReservePoints.Length && default.OVERWATCHSHOT_ABILITY_NAMES.Find(kAbility.GetMyTemplateName()) != -1)
 	{
 		AbilityState = XComGameState_Ability(`XCOMHISTORY.GetGameStateForObjectID(EffectState.ApplyEffectParameters.AbilityStateObjectRef.ObjectID));
 		if (AbilityState != none)
@@ -64,16 +88,16 @@ function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStat
 			NewGameState.AddStateObject(UpdatedOverwatchCounter);
 			NewGameState.AddStateObject(SourceUnit);
 			EventMgr = `XEVENTMGR;
-			EventMgr.TriggerEvent('OverwatchTriggered', AbilityState, SourceUnit, NewGameState);
+			EventMgr.TriggerEvent('EisenefaustOverwatchTriggered', AbilityState, SourceUnit, NewGameState);
 			return true;	
 		}
 	}
 	return false;
 }
 
-static function XComGameState_Effect_EffectCounter GetEisenefaustOverwatchCounter(XComGameState_Effect Effect)
+defaultproperties
 {
-	if (Effect != none) 
-		return XComGameState_Effect_EffectCounter(Effect.FindComponentObject(class'XComGameState_Effect_EffectCounter'));
-	return none;
+	DuplicateResponse=eDupe_Ignore
+	EffectName="Effect_EisenefaustOverwatch"
 }
+
