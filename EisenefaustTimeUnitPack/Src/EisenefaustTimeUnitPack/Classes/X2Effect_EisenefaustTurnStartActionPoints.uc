@@ -41,7 +41,7 @@ function ModifyTurnStartActionPoints(XComGameState_Unit UnitState, out array<nam
 
 	if(default.bOneAdditionalRunAndGun)
 	{
-		//allow the last action to be used for a non-move action
+		// allows one action to be used for a non-move action
 		ActionPoints.AddItem(class'X2CharacterTemplateManager'.default.RunAndGunActionPoint);
 	}
 }

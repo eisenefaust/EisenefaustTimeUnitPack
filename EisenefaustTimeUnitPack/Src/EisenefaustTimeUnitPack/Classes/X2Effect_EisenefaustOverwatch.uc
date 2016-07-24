@@ -17,7 +17,6 @@ simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffe
 	local X2EventManager						EventMgr;
 	local Object								ListenerObj, EffectObj;
 	local XComGameState_Unit					UnitState;
-	//local X2WeaponTemplate weapon;
 
 	EventMgr = `XEVENTMGR;
 	EffectObj = NewEffectState;
@@ -25,9 +24,6 @@ simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffe
 
 	if (GetEisenefaustOverwatchCounter(NewEffectState) == none)
 	{
-		//weapon = X2WeaponTemplate(UnitState.GetPrimaryWeapon().GetMyTemplate());
-		//weapon.WeaponCat;
-		//OVERWATCH_USES_THIS_TURN = UnitState.ActionPoints.Length;
 		EisenefaustOverwatch_EffectState = XComGameState_Effect_EffectCounter(NewGameState.CreateStateObject(class'XComGameState_Effect_EffectCounter'));
 		EisenefaustOverwatch_EffectState.InitComponent();
 		NewEffectState.AddComponentObject(EisenefaustOverwatch_EffectState);
@@ -60,7 +56,7 @@ function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStat
 	CurrentOverwatchCounter = GetEisenefaustOverwatchCounter(EffectState);
 	if (CurrentOverwatchCounter != none)	 
 	{
-		// if just activated the overwatch ability
+		// if just activated one of the overwatch abilities
 		if (default.OVERWATCH_ABILITY_NAMES.Find(kAbility.GetMyTemplateName()) != -1)
 		{
 			// determine how many uses for this turn
@@ -70,7 +66,7 @@ function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStat
 				OVERWATCH_USES_THIS_TURN = HistoricalUnit.ActionPoints.Length;
 			}
 		}
-		
+
 		if (CurrentOverwatchCounter.uses >= OVERWATCH_USES_THIS_TURN) // Essentially a modified PreCostActionPoints.Length
 		{
 			return false;
@@ -80,6 +76,7 @@ function bool PostAbilityCostPaid(XComGameState_Effect EffectState, XComGameStat
 	if (XComGameState_Ability(`XCOMHISTORY.GetGameStateForObjectID(EffectState.ApplyEffectParameters.AbilityStateObjectRef.ObjectID)) == none)
 		return false;
 
+	// if an overwatchshot ability is used
 	if (SourceUnit.ReserveActionPoints.Length != PreCostReservePoints.Length && default.OVERWATCHSHOT_ABILITY_NAMES.Find(kAbility.GetMyTemplateName()) != -1)
 	{
 		AbilityState = XComGameState_Ability(`XCOMHISTORY.GetGameStateForObjectID(EffectState.ApplyEffectParameters.AbilityStateObjectRef.ObjectID));

@@ -23,7 +23,7 @@ static function X2AbilityTemplate AddEisenefaustOverwatchAbility()
 	local X2Effect_EisenefaustOverwatch			PersistentEffect;
 
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'EisenefaustOverwatch');
-	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_beserk";
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_aethershift";
 	Template.Hostility = eHostility_Neutral;
 	Template.AbilitySourceName = 'eAbilitySource_Perk';
 	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
@@ -62,12 +62,6 @@ static function X2AbilityTemplate AddEisenefaustActionPointsAbility()
 	StartAP.BuildPersistentEffect (1, true, true); // exist forever
 	StartAP.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true,,Template.AbilitySourceName);
 	Template.AddTargetEffect (StartAP); // adds to target of the ability as defined above: SelfTarget
-
-	//Overwatch = new class'X2Effect_EisenefaustOverwatch';
-	//Overwatch.BuildPersistentEffect (1, true, false);
-	//Overwatch.SetDisplayInfo(ePerkBuff_Passive,Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, false,,Template.AbilitySourceName); // the false is to not show it in the passive HUD list
-	//Template.AddTargetEffect (Overwatch);
-	Template.AdditionalAbilities.AddItem('EisenefaustOverwatch');
 	
 	Template.bCrossClassEligible = false;
 	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;

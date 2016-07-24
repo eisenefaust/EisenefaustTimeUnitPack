@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------------------- 
 //  FILE:    TemplateEditors_Tactical
 //  AUTHOR:  Eisenefaust with loads of design taken from Xylthixlm's Shadow Ops Class Pack (http://steamcommunity.com/sharedfiles/filedetails/?id=651343461)
-//  PURPOSE: Sets up ScreenListener to change standard abilities to work with the TU Perk
+//  PURPOSE: Change standard abilities to work with the TU Perk, call from OnPostTemplatesCreated()
 //--------------------------------------------------------------------------------------- 
 
 class TemplateEditors_Tactical extends Object config(EisenefaustTUPack);
@@ -44,12 +44,14 @@ static function AddDoNotConsumeAllAbility(name AbilityName, name PassiveAbilityN
 	local X2AbilityCost					AbilityCost;
 	local X2AbilityCost_ActionPoints	ActionPointCost;
 
+	// look in all ability templates
 	AbilityManager = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 	AbilityManager.FindAbilityTemplateAllDifficulties(AbilityName, TemplateAllDifficulties);
 	foreach TemplateAllDifficulties(Template)
 	{
 		foreach Template.AbilityCosts(AbilityCost)
 		{
+			// adjust ability cost of all abilities in the list to not consume all points if the Passive is active
 			ActionPointCost = X2AbilityCost_ActionPoints(AbilityCost);
 			if (ActionPointCost != none && ActionPointCost.bConsumeAllPoints && ActionPointCost.DoNotConsumeAllSoldierAbilities.Find(PassiveAbilityName) == INDEX_NONE)
 			{
