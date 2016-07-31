@@ -21,8 +21,6 @@
     <Folder Include="Src\XComGame\Classes\" />
     <Folder Include="Src\EisenefaustTimeUnitPack\" />
     <Folder Include="Src\EisenefaustTimeUnitPack\Classes\" />
-    <Folder Include="Src\LW_PerkPack\" />
-    <Folder Include="Src\LW_PerkPack\Classes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\XComClassData.ini" />
@@ -39,7 +37,7 @@
     <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2DownloadableContentInfo_EisenefaustTimeUnitPack.uc" />
     <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2Effect_EisenefaustTurnStartActionPoints.uc" />
     <Content Include="Src\EisenefaustTimeUnitPack\Classes\X2Effect_EisenefaustOverwatch.uc" />
-    <Content Include="Src\LW_PerkPack\Classes\XComGameState_Effect_EffectCounter.uc" />
+    <Content Include="Src\EisenefaustTimeUnitPack\Classes\XComGameState_Effect_EisenefaustEffectCounter.uc" />
     <None Include="Src\XComGame\Classes\AnalyticsManager.uc" />
     <None Include="Src\XComGame\Classes\AnimNotify_ApplyPsiEffectsToTarget.uc" />
     <None Include="Src\XComGame\Classes\AnimNotify_BlendIK.uc" />

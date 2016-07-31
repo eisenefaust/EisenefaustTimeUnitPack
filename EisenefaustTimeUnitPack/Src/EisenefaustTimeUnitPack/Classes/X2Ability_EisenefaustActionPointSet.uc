@@ -34,7 +34,6 @@ static function X2AbilityTemplate AddEisenefaustOverwatchAbility()
 	Template.bIsPassive = true;
 	PersistentEffect = new class'X2Effect_EisenefaustOverwatch';
 	PersistentEffect.BuildPersistentEffect(1, true, false);
-	//PersistentEffect.OVERWATCH_USES_THIS_TURN = 6;
 	PersistentEffect.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true,, Template.AbilitySourceName);
 	Template.AddTargetEffect(PersistentEffect);
 	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
@@ -45,8 +44,7 @@ static function X2AbilityTemplate AddEisenefaustOverwatchAbility()
 static function X2AbilityTemplate AddEisenefaustActionPointsAbility()
 {
 	local X2AbilityTemplate			Template;
-	local X2Effect_EisenefaustTurnStartActionPoints	StartAP;
-	//local X2Effect_EisenefaustOverwatch				Overwatch;
+	local X2Effect_EisenefaustTurnStartActionPoints	PersistentEffect;
 
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'EisenefaustActionPoints');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_timeshift";
@@ -58,10 +56,10 @@ static function X2AbilityTemplate AddEisenefaustActionPointsAbility()
 	Template.AbilityTriggers.AddItem(default.UnitPostBeginPlayTrigger);	
 	Template.bIsPassive = true;
 	
-	StartAP = new class 'X2Effect_EisenefaustTurnStartActionPoints';
-	StartAP.BuildPersistentEffect (1, true, true); // exist forever
-	StartAP.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true,,Template.AbilitySourceName);
-	Template.AddTargetEffect (StartAP); // adds to target of the ability as defined above: SelfTarget
+	PersistentEffect = new class 'X2Effect_EisenefaustTurnStartActionPoints';
+	PersistentEffect.BuildPersistentEffect (1, true, true); // exist forever
+	PersistentEffect.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true,,Template.AbilitySourceName);
+	Template.AddTargetEffect (PersistentEffect); // adds to target of the ability as defined above: SelfTarget
 	
 	Template.bCrossClassEligible = false;
 	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
